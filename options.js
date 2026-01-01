@@ -1,3 +1,11 @@
+/*
+ * Advanced Tab Control - Options Page
+ * Copyright (c) 2025. All Rights Reserved.
+ * 
+ * This file is part of proprietary software.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
+
 // Options page script
 
 let currentSettings = null;

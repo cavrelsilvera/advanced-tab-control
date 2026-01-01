@@ -1,3 +1,11 @@
+/*
+ * Advanced Tab Control - Content Script
+ * Copyright (c) 2025. All Rights Reserved.
+ * 
+ * This file is part of proprietary software.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
+
 // Content script for site-specific link behavior
 
 let cachedSettings = null;

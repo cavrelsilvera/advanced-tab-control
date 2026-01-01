@@ -1,7 +1,13 @@
 /*
- Advanced Tab Control – Close Activation FIX
- Proper tab index tracking to prevent Chrome from overriding our choice
-*/
+ * Advanced Tab Control
+ * Copyright (c) 2025. All Rights Reserved.
+ * 
+ * This file is part of proprietary software.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ * 
+ * Advanced Tab Control – Close Activation FIX
+ * Proper tab index tracking to prevent Chrome from overriding our choice
+ */
 
 const ATC_SCHEMA_VERSION = 1;
 

@@ -208,7 +208,11 @@ This extension:
 
 ## License
 
-MIT License - Feel free to modify and distribute
+**Proprietary License - All Rights Reserved**
+
+This software is proprietary and confidential. Distribution, modification, or commercial use is prohibited without express written consent from the copyright holder.
+
+For licensing inquiries or permission requests, please see the [LICENSE](LICENSE) file.
 
 ## Support
 

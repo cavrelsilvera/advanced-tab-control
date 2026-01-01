@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Tab Control Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Advanced Tab Control</h1>
+    
+    <div class="options-link">
+      <button id="openOptions" class="btn btn-secondary">⚙️ Open Full Settings Page</button>
+    </div>
+    
+    <div class="tabs">
+      <button class="tab-button active" data-tab="general">General</button>
+      <button class="tab-button" data-tab="site">Site-Specific</button>
+    </div>
+    
+    <!-- General Settings Tab -->
+    <div class="tab-content active" id="general-tab">
+      <section class="setting-section">
+        <h2>Tab Close Behavior</h2>
+        <div class="setting-group">
+          <label>When closing a tab, activate:</label>
+          <select id="closeTabActivation">
+            <option value="left">Tab to the Left</option>
+            <option value="right">Tab to the Right</option>
+          </select>
+          <p class="description">Choose which tab becomes active when you close the current tab.</p>
+        </div>
+      </section>
+      
+      <section class="setting-section">
+        <h2>New Tab Behavior</h2>
+        <div class="setting-group">
+          <label>New tab position:</label>
+          <select id="newTabPosition">
+            <option value="left">Left of Current Tab</option>
+            <option value="right">Right of Current Tab</option>
+          </select>
+          <p class="description">Where new tabs open relative to the current tab.</p>
+        </div>
+        
+        <div class="setting-group">
+          <label>New tab activation:</label>
+          <select id="newTabActivation">
+            <option value="foreground">Foreground (Switch to new tab)</option>
+            <option value="background">Background (Stay on current tab)</option>
+          </select>
+          <p class="description">Whether new tabs open in the foreground or background.</p>
+        </div>
+      </section>
+      
+      <section class="setting-section">
+        <h2>Link Behavior</h2>
+        <div class="setting-group">
+          <label>When clicking links:</label>
+          <select id="linkBehavior">
+            <option value="newTab">Open in New Tab</option>
+            <option value="sameTab">Open in Same Tab</option>
+          </select>
+          <p class="description">Default behavior for clicking links. Ctrl/Cmd+Click always opens in new tab.</p>
+        </div>
+      </section>
+      
+      <section class="setting-section">
+        <h2>Popup Behavior</h2>
+        <div class="setting-group">
+          <label>When a popup window opens:</label>
+          <select id="popupBehavior">
+            <option value="tab-background">Convert to Tab (Background)</option>
+            <option value="tab-foreground">Convert to Tab (Foreground)</option>
+            <option value="popup">Keep as Popup</option>
+          </select>
+          <p class="description">How to handle popup windows opened by websites.</p>
+        </div>
+      </section>
+      
+      <div class="button-group">
+        <button id="saveGeneral" class="btn btn-primary">Save Settings</button>
+        <button id="resetGeneral" class="btn btn-secondary">Reset to Defaults</button>
+      </div>
+      
+      <div id="saveMessage" class="message"></div>
+    </div>
+    
+    <!-- Site-Specific Settings Tab -->
+    <div class="tab-content" id="site-tab">
+      <section class="setting-section">
+        <h2>Current Site</h2>
+        <div class="current-site-info">
+          <div id="currentSiteDisplay">
+            <strong>Site:</strong> <span id="currentHostname">Loading...</span>
+          </div>
+          <button id="addCurrentSite" class="btn btn-primary">Configure This Site</button>
+        </div>
+      </section>
+      
+      <div id="siteSettingsForm" class="hidden">
+        <section class="setting-section">
+          <h2>Settings for <span id="configuringSite"></span></h2>
+          
+          <div class="setting-group">
+            <label>
+              <input type="checkbox" id="siteEnabled">
+              Enable custom settings for this site
+            </label>
+          </div>
+          
+          <div id="siteSpecificSettings">
+            <div class="setting-group">
+              <label>When closing a tab, activate:</label>
+              <select id="siteCloseTabActivation">
+                <option value="left">Tab to the Left</option>
+                <option value="right">Tab to the Right</option>
+              </select>
+            </div>
+            
+            <div class="setting-group">
+              <label>New tab position:</label>
+              <select id="siteNewTabPosition">
+                <option value="left">Left of Current Tab</option>
+                <option value="right">Right of Current Tab</option>
+              </select>
+            </div>
+            
+            <div class="setting-group">
+              <label>New tab activation:</label>
+              <select id="siteNewTabActivation">
+                <option value="foreground">Foreground</option>
+                <option value="background">Background</option>
+              </select>
+            </div>
+            
+            <div class="setting-group">
+              <label>When clicking links:</label>
+              <select id="siteLinkBehavior">
+                <option value="newTab">Open in New Tab</option>
+                <option value="sameTab">Open in Same Tab</option>
+              </select>
+            </div>
+            
+            <div class="setting-group">
+              <label>When a popup window opens:</label>
+              <select id="sitePopupBehavior">
+                <option value="tab-background">Convert to Tab (Background)</option>
+                <option value="tab-foreground">Convert to Tab (Foreground)</option>
+                <option value="popup">Keep as Popup</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="button-group">
+            <button id="saveSite" class="btn btn-primary">Save Site Settings</button>
+            <button id="deleteSite" class="btn btn-danger">Delete Site Settings</button>
+            <button id="cancelSite" class="btn btn-secondary">Cancel</button>
+          </div>
+        </section>
+      </div>
+      
+      <section class="setting-section">
+        <h2>Configured Sites</h2>
+        <div id="configuredSitesList">
+          <p class="description">No sites configured yet.</p>
+        </div>
+      </section>
+      
+      <div id="siteSaveMessage" class="message"></div>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

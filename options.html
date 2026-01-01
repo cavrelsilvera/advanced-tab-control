@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Tab Control - Options</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #333;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
+      color: white;
+      padding: 30px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid #e0e0e0;
+      margin-bottom: 30px;
+    }
+
+    .tab-button {
+      padding: 15px 30px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 500;
+      color: #666;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+
+    .tab-button:hover {
+      color: #1a73e8;
+      background: #f8f9fa;
+    }
+
+    .tab-button.active {
+      color: #1a73e8;
+      border-bottom-color: #1a73e8;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .section {
+      margin-bottom: 35px;
+      padding: 25px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .section h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #1a73e8;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section h2::before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: #1a73e8;
+      border-radius: 2px;
+    }
+
+    .setting-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+      margin-bottom: 20px;
+      padding: 20px;
+      background: white;
+      border-radius: 6px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .setting-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .setting-label {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .setting-label strong {
+      font-size: 15px;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    .setting-label .description {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .setting-control select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 14px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .setting-control select:hover {
+      border-color: #1a73e8;
+    }
+
+    .setting-control select:focus {
+      outline: none;
+      border-color: #1a73e8;
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 2px solid #e0e0e0;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: #1a73e8;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #1557b0;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+    }
+
+    .btn-secondary {
+      background: #f1f3f4;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background: #e0e0e0;
+    }
+
+    .message {
+      padding: 15px 20px;
+      border-radius: 6px;
+      margin-top: 20px;
+      font-size: 14px;
+      display: none;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message.success {
+      background: #e6f4ea;
+      color: #137333;
+      border: 1px solid #a8dab5;
+      display: block;
+    }
+
+    .message.error {
+      background: #fce8e6;
+      color: #c5221f;
+      border: 1px solid #f4b9b2;
+      display: block;
+    }
+
+    /* Site-specific styles */
+    .site-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .site-card {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 20px;
+      transition: all 0.2s;
+    }
+
+    .site-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+
+    .site-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .site-card-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a73e8;
+    }
+
+    .site-card-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .site-card-actions button {
+      padding: 6px 12px;
+      font-size: 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-edit {
+      background: #e8f0fe;
+      color: #1a73e8;
+    }
+
+    .btn-edit:hover {
+      background: #d2e3fc;
+    }
+
+    .btn-delete {
+      background: #fce8e6;
+      color: #d93025;
+    }
+
+    .btn-delete:hover {
+      background: #f4b9b2;
+    }
+
+    .site-card-settings {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .site-card-settings div {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+    }
+
+    .site-card-settings .label {
+      font-weight: 500;
+    }
+
+    .site-card-settings .value {
+      color: #1a73e8;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #666;
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+      opacity: 0.3;
+    }
+
+    .add-site-section {
+      background: white;
+      border: 2px dashed #e0e0e0;
+      border-radius: 6px;
+      padding: 25px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .add-site-section input {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 14px;
+      margin: 15px 0;
+    }
+
+    .add-site-section input:focus {
+      outline: none;
+      border-color: #1a73e8;
+    }
+
+    .site-form {
+      display: none;
+      margin-top: 25px;
+    }
+
+    .site-form.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>⚙️ Advanced Tab Control</h1>
+      <p class="subtitle">Configure tab behavior, link handling, and per-site customization</p>
+    </header>
+
+    <div class="content">
+      <div class="tabs">
+        <button class="tab-button active" data-tab="general">General Settings</button>
+        <button class="tab-button" data-tab="sites">Site-Specific Rules</button>
+      </div>
+
+      <!-- General Settings Tab -->
+      <div class="tab-content active" id="general-tab">
+        <div class="section">
+          <h2>Tab Closing Behavior</h2>
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>When I close a tab, activate:</strong>
+              <span class="description">
+                Choose which tab becomes active after closing the current tab. 
+                This helps maintain your browsing flow.
+              </span>
+            </div>
+            <div class="setting-control">
+              <select id="closeTabActivation">
+                <option value="left">← Tab to the Left</option>
+                <option value="right">Tab to the Right →</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>New Tab Behavior</h2>
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>New tab position:</strong>
+              <span class="description">
+                Control where new tabs appear relative to your current tab.
+              </span>
+            </div>
+            <div class="setting-control">
+              <select id="newTabPosition">
+                <option value="left">← Left of Current Tab</option>
+                <option value="right">Right of Current Tab →</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>New tab activation:</strong>
+              <span class="description">
+                Decide whether new tabs immediately take focus or stay in the background.
+              </span>
+            </div>
+            <div class="setting-control">
+              <select id="newTabActivation">
+                <option value="foreground">Foreground (Switch immediately)</option>
+                <option value="background">Background (Stay on current)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Link Click Behavior</h2>
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>When I click a link:</strong>
+              <span class="description">
+                Default behavior for regular link clicks. Ctrl/Cmd+Click and middle-click 
+                will always open in a new tab regardless of this setting.
+              </span>
+            </div>
+            <div class="setting-control">
+              <select id="linkBehavior">
+                <option value="newTab">Open in New Tab</option>
+                <option value="sameTab">Open in Same Tab (Browser Default)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Popup Window Behavior</h2>
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>When a popup window opens:</strong>
+              <span class="description">
+                Control how popup windows are handled. Some sites use popups for 
+                authentication or additional content.
+              </span>
+            </div>
+            <div class="setting-control">
+              <select id="popupBehavior">
+                <option value="tab-background">Convert to Tab (Background)</option>
+                <option value="tab-foreground">Convert to Tab (Foreground)</option>
+                <option value="popup">Keep as Popup Window</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Advanced Options</h2>
+          <div class="setting-row">
+            <div class="setting-label">
+              <strong>Debug Mode:</strong>
+              <span class="description">
+                Enable console logging to troubleshoot link behavior issues. 
+                Open browser console (F12) to see debug messages.
+              </span>
+            </div>
+            <div class="setting-control">
+              <select id="debugMode">
+                <option value="false">Disabled</option>
+                <option value="true">Enabled</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button id="saveGeneral" class="btn btn-primary">💾 Save Settings</button>
+          <button id="resetGeneral" class="btn btn-secondary">↺ Reset to Defaults</button>
+        </div>
+
+        <div id="generalMessage" class="message"></div>
+      </div>
+
+      <!-- Site-Specific Tab -->
+      <div class="tab-content" id="sites-tab">
+        <div class="add-site-section">
+          <h3>Add New Site Rule</h3>
+          <p>Enter a hostname (e.g., github.com, youtube.com)</p>
+          <input type="text" id="newSiteHostname" placeholder="example.com">
+          <button id="addSiteBtn" class="btn btn-primary">+ Add Site</button>
+        </div>
+
+        <div id="siteForm" class="site-form">
+          <div class="section">
+            <h2>Settings for <span id="editingSiteName"></span></h2>
+            
+            <div class="setting-row">
+              <div class="setting-label">
+                <strong>Tab close activation:</strong>
+              </div>
+              <div class="setting-control">
+                <select id="siteCloseTabActivation">
+                  <option value="left">← Left</option>
+                  <option value="right">Right →</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-label">
+                <strong>New tab position:</strong>
+              </div>
+              <div class="setting-control">
+                <select id="siteNewTabPosition">
+                  <option value="left">← Left</option>
+                  <option value="right">Right →</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-label">
+                <strong>New tab activation:</strong>
+              </div>
+              <div class="setting-control">
+                <select id="siteNewTabActivation">
+                  <option value="foreground">Foreground</option>
+                  <option value="background">Background</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-label">
+                <strong>Link behavior:</strong>
+              </div>
+              <div class="setting-control">
+                <select id="siteLinkBehavior">
+                  <option value="newTab">New Tab</option>
+                  <option value="sameTab">Same Tab</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-label">
+                <strong>Popup behavior:</strong>
+              </div>
+              <div class="setting-control">
+                <select id="sitePopupBehavior">
+                  <option value="tab-background">Tab (Background)</option>
+                  <option value="tab-foreground">Tab (Foreground)</option>
+                  <option value="popup">Popup</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="button-group">
+              <button id="saveSiteBtn" class="btn btn-primary">💾 Save Site Rule</button>
+              <button id="cancelSiteBtn" class="btn btn-secondary">✕ Cancel</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Configured Sites</h2>
+          <div id="siteList" class="site-list">
+            <div class="empty-state">
+              <div class="empty-state-icon">🌐</div>
+              <p>No site-specific rules configured yet</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="siteMessage" class="message"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+
+<!-- Preferences Export / Import -->
+<div class="section">
+  <h2>Preferences Backup</h2>
+  <div class="setting-row">
+    <div class="setting-label">
+      <strong>Export / Import Preferences</strong>
+    </div>
+    <div class="setting-control">
+      <button id="exportPrefs" class="btn btn-primary">Export</button>
+      <button id="importPrefs" class="btn btn-secondary">Import</button>
+      <input type="file" id="importFile" accept="application/json" style="display:none">
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
